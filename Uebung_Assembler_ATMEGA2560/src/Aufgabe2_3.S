@@ -35,10 +35,10 @@ reset_cntr:
 ;SBI PINC, PC6 
     ldi CNTR,0x0
     com DIRECTION
-    rcall led_start_high
-    ;TST DIRECTION
-    ;    BREQ led_start_low
-    ;    BRNE led_start_high
+    ;rcall led_start_high
+    TST DIRECTION
+        BREQ led_start_low
+        BRNE led_start_high
 reti
 
 led_start_low:
@@ -46,7 +46,7 @@ led_start_low:
 reti
 
 led_start_high:
-	ldi LED_COUNTER,0x8
+	ldi LED_COUNTER,0x80
 reti
 
 
@@ -69,7 +69,6 @@ main:
 
     ;initialize LED_COUNTER
 	ldi LED_COUNTER,0x1
-	rcall setLED
 
     ;initialize DIRECTION
     ldi DIRECTION, 0x0
@@ -130,14 +129,14 @@ ret
 
 shift_left:
     ;SBI PINC, PC1
-    lsl LED_COUNTER
-    lsl LED_COUNTER
     rcall setLED
+    lsl LED_COUNTER
+    lsl LED_COUNTER
 ret
 
 shift_right:
     ;SBI PINC, PC2
+    rcall setLED
     lsr LED_COUNTER 
     lsr LED_COUNTER
-    rcall setLED
 ret
