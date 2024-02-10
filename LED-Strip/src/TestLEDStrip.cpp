@@ -9,6 +9,10 @@
 
 extern "C"
 {
+  // function prototypes debug
+  void TOGGLE_LED(void);
+  void SS_ON(void);
+  void SS_OFF(void);
   // function prototypes
   void STRIP_SPI_init(void);
   void STRIP_com(uint8_t one_byte);
@@ -22,6 +26,7 @@ void setup()
 }
 void loop()
 {
+  TOGGLE_LED();
   // LED-ON
   // Start-Frame
   STRIP_com(0);
@@ -30,7 +35,7 @@ void loop()
   STRIP_com(0);
   // LED-Frame
   STRIP_com(0xE5); // Brigtness 5
-  STRIP_com(0x0A); // Blue
+  STRIP_com(0x0); // Blue
   STRIP_com(0);    // Green
   STRIP_com(0);    // Red
   // END-Frame
