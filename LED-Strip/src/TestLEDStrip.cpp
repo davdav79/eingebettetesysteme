@@ -62,10 +62,10 @@ void setup()
 //   //LED - ON
 //   STRIP_show(LED_NUM_MAX - 1, 0, 0, 10, 5);
 //   STRIP_show(0, 0, 0, 10, 5);
-//   delay(500);
+//   delay(20);
 //   //LED - OFF
 //   STRIP_show(LED_NUM_MAX, 0, 0, 0, 0);
-//   delay(500);
+//   delay(20);
 // }
 
 void loop()
