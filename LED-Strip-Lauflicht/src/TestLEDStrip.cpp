@@ -4,6 +4,7 @@
 
 #include <Arduino.h>
 #include <avr/io.h>
+#include "ss_oled.h"
 
 #define TST_1 2
 #define TST_2 3
@@ -12,7 +13,7 @@
 #define LED_2 6
 #define LED_NUM_MAX 30
 #define LED_NUM_START 0
-#define LED_START_DELAY 495
+#define LED_START_DELAY 255
 #define LED_MAX_DELAY 500
 #define LED_MIN_DELAY 5
 #define LED_STEP_SIZE_DELAY 10
@@ -21,10 +22,11 @@
 #define DEBOUNCE_DELAY 300
 #define DEBUG_DELAY 500
 #define BUZZER_DELAY 200
-int display_led;
+int led_number;
 int led_dir;
 int led_delay;
 int send_buzzer;
+int start_led_run;
 unsigned long last_interrupt_led;
 unsigned long last_debug_print;
 unsigned long last_buzzer;
@@ -32,7 +34,7 @@ volatile unsigned long last_interrupt_time1;
 volatile unsigned long last_interrupt_time2;
 
 extern "C"
-{
+{        
   // function prototypes debug
   void TOGGLE_LED(void);
   void LED_init(void);
@@ -53,7 +55,8 @@ void setup()
   Serial.begin(115200);
   STRIP_SPI_init();
   send_buzzer = 0;
-  display_led = LED_NUM_START;
+  start_led_run = 0;
+  led_number = LED_NUM_START;
   led_dir = LED_DIR_FORWARD; 
   led_delay = LED_START_DELAY;
   pinMode(BUZZER,OUTPUT);
@@ -76,44 +79,57 @@ void loop()
 }
 void show_led(){
   //LED - ON
-  if(millis() - last_interrupt_led >(unsigned long)led_delay){
-    if(display_led == LED_NUM_MAX-1 && led_dir == LED_DIR_FORWARD){
+  if(millis() - last_interrupt_led >(unsigned long)led_delay){ 
+    last_interrupt_led = millis();
+    if(start_led_run == 0){
+      return;
+    }
+    if(led_number == LED_NUM_MAX-1 && led_dir == LED_DIR_FORWARD){
       led_dir = LED_DIR_BACK;
-    }else if(display_led == LED_NUM_START && led_dir == LED_DIR_BACK){
+    }else if(led_number == LED_NUM_START && led_dir == LED_DIR_BACK){
       led_dir = LED_DIR_FORWARD;
     }
     STRIP_show(LED_NUM_MAX-1, 0, 0, 0, 0);
-    STRIP_show(display_led, 0, 0, 10, 10);//warum verändert sich die display_led variable, wenn wir ein register verändern? 
-    display_led += led_dir;
-    last_interrupt_led = millis();
+    STRIP_show(led_number, 0, 0, 10, 10);//warum verändert sich die led_number variable, wenn wir ein register verändern? 
+    led_number += led_dir;
    }
 }
 void inc_speed(){
+  if(start_led_run == 0){
+    start_led_run = 1;
+    return;
+  }
   unsigned long current_millis = millis();
   if(current_millis - last_interrupt_time1 > (unsigned long)DEBOUNCE_DELAY){
+    last_interrupt_time1 = millis();
+    if(start_led_run == 0){
+      start_led_run = 1;
+      return;
+    }
     if(led_delay-LED_STEP_SIZE_DELAY <= LED_MIN_DELAY){
       if(send_buzzer == 0 && led_delay == 5)
         send_buzzer = 1;
       led_delay = 5;
-      last_interrupt_time1 = millis();
       return;
     }
     led_delay -= LED_STEP_SIZE_DELAY;
-    last_interrupt_time1 = millis();
   }
 }
 void dec_speed(){
   unsigned long current_millis = millis();
   if(current_millis - last_interrupt_time2 > (unsigned long)DEBOUNCE_DELAY){
+    last_interrupt_time2 = millis();
+    if(start_led_run == 0){
+      start_led_run = 1;
+      return;
+    }
     if(led_delay+LED_STEP_SIZE_DELAY >= LED_MAX_DELAY){
       if(send_buzzer == 0 && led_delay == 500)
         send_buzzer = 1;
       led_delay = 500;
-      last_interrupt_time2 = millis();
       return;
     }
     led_delay += LED_STEP_SIZE_DELAY;
-    last_interrupt_time2 = millis();
   }
 }
 
