@@ -48,22 +48,10 @@ void setup()
 //   STRIP_com(0);
 //   STRIP_com(0);
 //   // LED-Frame
-//   STRIP_com(0xE5); // Brigtness 0
+//   STRIP_com(0xE0); // Brigtness 0
 //   STRIP_com(0);    // Blue
-//   STRIP_com(0x0A);    // Green
+//   STRIP_com(0);    // Green
 //   STRIP_com(0);    // Red
-//   // END-Frame
-//   STRIP_com(0);
-// delay(500);
-//     STRIP_com(0);
-//   STRIP_com(0);
-//   STRIP_com(0);
-//   STRIP_com(0);
-//   // LED-Frame
-//   STRIP_com(0xE5); // Brigtness 0
-//   STRIP_com(0);    // Blue
-//   STRIP_com(0x0);    // Green
-//   STRIP_com(0xA);    // Red
 //   // END-Frame
 //   STRIP_com(0);
 //   delay(500);

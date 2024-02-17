@@ -80,7 +80,6 @@ STRIP_show:
     SBIW R26, 1
     BRCC _STRIP_show_loop2
   
-  _if_zero:
   ; send brightness         
   ;send brightness 
   ; mit 11100000 verodern damit die ersten 3 bit immer 1 sind
@@ -97,6 +96,9 @@ STRIP_show:
   
  ;END_frame: implements the variable bytes for the End-Frame
   RCALL END_frame
+  ; LDI R24,0
+  ; RCALL STRIP_com
+  ; RCALL STRIP_com
 ret
 _STRIP_show_loop2:
   ;send brightness 
@@ -118,14 +120,14 @@ END_frame:
   MOVW R26,R24
   ldi R24,0x0
   SBIW R26,1
-  BRCC END_frame_jmp
+  BRCS END_frame_jmp ; if C is set (R26<1), jump to END_frame_jmp
  
   END_frame_loop1:  
+    RCALL STRIP_com
     SBIW R26, 16
-    RCALL STRIP_com
-    
     BRCC END_frame_loop1
-    END_frame_jmp:
-    RCALL STRIP_com
   ret
+END_frame_jmp:
+    RCALL STRIP_com
+ret
   
