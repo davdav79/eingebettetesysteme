@@ -57,18 +57,18 @@ void setup()
 //   delay(500);
 // }
 
-// void loop()
-// {
-//   //LED - ON
-//   STRIP_show(LED_NUM_MAX - 1, 0, 0, 10, 5);
-//   STRIP_show(0, 0, 0, 10, 5);
-//   delay(20);
-//   //LED - OFF
-//   STRIP_show(LED_NUM_MAX, 0, 0, 0, 0);
-//   delay(20);
-// }
-
 void loop()
+{
+  //LED - ON
+  STRIP_show(LED_NUM_MAX - 1, 0, 0, 10, 5);
+  STRIP_show(0, 0, 0, 10, 5);
+  delay(20);
+  //LED - OFF
+  STRIP_show(LED_NUM_MAX, 0, 0, 0, 0);
+  delay(20);
+}
+
+/*void loop()
 {
     END_frame(0); // 1 x End-Frame
     delay(200);
@@ -82,4 +82,4 @@ void loop()
     delay(200);
     END_frame(256); // 16 x End-Frame
     delay(200);
-}
+}*/

@@ -15,6 +15,7 @@
 
 .global LED_init
 LED_init:
+
   ;Data Direction Register DDR for Port C
   ser TEMP ;Set all bits to 1 --> Port C as Output
   out	DDRC, TEMP ;DDRC: Data Direction Register C
@@ -23,6 +24,7 @@ LED_init:
   ser TEMP ;Set all bits to 1
   out PORTC, TEMP ;PORTC: Port C Data Register
 ret
+
 .global TOGGLE_LED
 TOGGLE_LED:
   SBI PINC, PC0

@@ -67,12 +67,14 @@ STRIP_com:
 ;   R16                   0-31:     Brigthness
 .global STRIP_show
 STRIP_show:
-push R24;
-push R26
-push R28
+  push R24
+  push R26
+  push R27
+  push R30
+  push R31;
 ; save index of pixel
   MOVW R26,R24
-  MOVW R28,R24
+  MOVW R30,R24
   ; send start frame 4x 0x0
   LDI R24, 0x0
   RCALL STRIP_com
@@ -83,8 +85,7 @@ push R28
   _Strip_show_loop1:
     SBIW R26, 1
     BRCC _STRIP_show_loop2
-  
-  ; send brightness         
+           
   ;send brightness 
   ; mit 11100000 verodern damit die ersten 3 bit immer 1 sind
   MOV R24, R16
@@ -97,17 +98,18 @@ push R28
   RCALL STRIP_com
   MOV R24,R18
   RCALL STRIP_com
-  MOVW R24,R28
+  MOVW R24,R30
  ;END_frame: implements the variable bytes for the End-Frame
   RCALL END_frame
   
-  POP R28
+  POP R31
+  POP R30
+  POP R27
   POP R26 
   POP R24
-  
-  
 ret
 _STRIP_show_loop2:
+  PUSH R24
   ;send brightness 
   ; mit 11100000 verodern damit die ersten 3 bit immer 1 sind
   ldi R24, 0xE0 
@@ -117,6 +119,7 @@ _STRIP_show_loop2:
   RCALL STRIP_com
   RCALL STRIP_com
   RCALL STRIP_com
+  POP R24
   rjmp _Strip_show_loop1
 
 
