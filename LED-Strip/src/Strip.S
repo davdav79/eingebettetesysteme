@@ -118,6 +118,7 @@ _STRIP_show_loop2:
  ;Parameter R25, R24 (MSB, LSB)
 .global END_frame
 END_frame:
+  movw R26, R24
   ldi R24,0x0
   SBIW R26,1
   BRCS END_frame_jmp ; if C is set (R26<1), jump to END_frame_jmp
