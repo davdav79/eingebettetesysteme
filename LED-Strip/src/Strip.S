@@ -156,6 +156,8 @@ _STRIP_show_loop2:
 ; ((R25:R24) - 1)/16 is the number of STRIP_com calls with 0x0 as parameter (R24 is 0x0):
 .global END_frame
 END_frame:
+  push R26
+  push R27
   movw R26, R24
   ldi R24,0x0
   SBIW R26,1 ;subtract 1 from R26 ;sets the C flag: if(R26 < 1) then: C=1
@@ -165,9 +167,13 @@ END_frame:
     RCALL STRIP_com
     SBIW R26, 16 ;subtract 16 from R26 ;sets the C flag: if(R26 < 16) then: C=1
     BRCC END_frame_loop1 ;if(C==0) then: jump to END_frame_loop1
+    pop R27
+    pop R26
 ret
 
 END_frame_jmp:
     RCALL STRIP_com
+    pop R27
+    pop R26
 ret
   
