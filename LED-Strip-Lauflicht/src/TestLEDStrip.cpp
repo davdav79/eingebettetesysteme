@@ -83,7 +83,7 @@ void loop()
       STRIP_show(LED_NUM_MAX-1, 0, 0, 0, 0); 
     }
     set_uptime();  
-    oled_send(button_counter,led_delay,led_uptime);
+    oled_send(button_counter,led_delay,led_uptime,led_number);
    
 }
 void set_uptime(){

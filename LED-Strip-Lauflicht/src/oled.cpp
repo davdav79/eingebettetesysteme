@@ -25,7 +25,7 @@ void oled_init(){
 }
 
 
-void oled_send(int button_presses, int led_delay, int led_uptime){
+void oled_send(int button_presses, int led_delay, int led_uptime, int led_current){
     if(millis() - last_oled_print >(unsigned long)500){
         char buffer[24];
         sprintf(buffer, "Button Counter: %03d", button_presses);
@@ -34,8 +34,8 @@ void oled_send(int button_presses, int led_delay, int led_uptime){
         oledWriteString(&ssoled, 0, 0, 2,(char *)buffer, FONT_SMALL, 0, 1);
         sprintf(buffer,"LED run time: %03d", led_uptime);
         oledWriteString(&ssoled, 0, 0, 4,(char *)buffer, FONT_SMALL, 0, 1);
-
-
+        sprintf(buffer,"LED current: %08d",led_current);
+        oledWriteString(&ssoled, 0, 0, 6,(char *)buffer, FONT_SMALL, 0, 1);
     }
 
     

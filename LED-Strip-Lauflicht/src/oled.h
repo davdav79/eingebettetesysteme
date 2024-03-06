@@ -15,4 +15,4 @@
 #define USE_HW_I2C 0
 
 void oled_init();
-void oled_send(int button_presses, int led_delay, int led_uptime);
+void oled_send(int button_presses, int led_delay, int led_uptime, int led_current);
